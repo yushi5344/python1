@@ -10,3 +10,12 @@ class Teachers(Person):
     def __init__(self,name,gender,age):
         super(Teachers,self).__init__(name,gender)
         self.age=age
+p=Person('Tim','Male')
+s=Students('Bob','Male',55)
+t=Teachers('Alice','Female',22)
+print(isinstance(p,Person))
+print(isinstance(p,Students))
+print(isinstance(t,object))
+print(isinstance(t,Person))
+print(isinstance(t,Students))
+print(isinstance(t,Teachers))
