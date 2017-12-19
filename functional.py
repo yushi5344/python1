@@ -61,3 +61,86 @@ students = [('john', 'A', 15), ('jane', 'B', 12), ('dave', 'B', 10)]
 #     return alls
 # alls=calc_prod([1,2,3])
 # print(alls())
+# def count():
+#     fs=[]
+#     for i in range(1,4):
+#         def f(j):
+#             def g():
+#                 return j*j
+#             return g
+#         r=f(i)
+#         fs.append(r)
+#     return fs
+# f1,f2,f3=count()
+# print(f1())
+# s=map(lambda x:x*x,[1,3,4,5,6,7,8])
+# print(list(s))
+# s=sorted([1,23,5,6,14,90,2],lambda x,y:-cmp(x,y))
+# print(s)
+# def is_not_empty(s):
+#     return s and len(s.strip())>0
+# s=filter(is_not_empty,['test','None','','str','   ','END'])
+# print(list(s))
+# h=filter(lambda s:s and len(s.strip())>0,['test','None','','str','   ','END'])
+# print(list(h))
+# print(math.pow(2,0.5))
+# import logging
+# print(math.log(10))
+# print(logging.log(10,'something'))
+# try:
+#     import simplejson as json
+# except ImportError:
+#     import json
+# print(json.dumps({'python':3.6}))
+# class Person(object):
+#     pass
+# xiaoming=Person()
+# xiaoming.name='Xiao Ming'
+# xiaoming.gender='Male'
+# xiaoming.birth='22-11'
+# xiaohong=Person()
+# xiaohong.name='Xiao Hong'
+# xiaohong.grade=4
+# xiaoming.grade=xiaohong.grade+1
+# print(xiaohong)
+# print(xiaoming)
+# print(xiaoming==xiaohong)
+import types
+class Person(object):
+    __address='china'
+    def __init__(self,name,score,**kwargs):
+        self.name=name
+        # self.gender=gender
+        # self.__birth=birth
+        self.score=score
+        for k,v in kwargs.items():
+            setattr(self,k,v)
+    # def get_grade(self):
+    #     if self.__score>90:
+    #         x='优秀'
+    #     elif self.__score>70 and self.__score<=90:
+    #         x='及格'
+    #     else:
+    #         x='不及格'
+    #     return x
+# xiaoming=Person('Xiao Ming','Male','1991-1-1')
+# xiaohong=Person('Xiao Hong','FeMale','1994-2-2',job='student')
+# print(xiaohong.name)
+# print(xiaohong.job)
+# print(xiaohong.birth)
+# print(xiaohong.address)
+p1=Person('xiao li',99)
+p2=Person('xiao wang',78)
+# print(p1.get_grade())
+# print(p2.get_grade())
+# print(p1.get_grade)
+def get_grade(self):
+    if self.score > 90:
+        x = '优秀'
+    elif self.score > 70 and self.score <= 90:
+        x = '及格'
+    else:
+        x = '不及格'
+    return x
+p1.get_grade=types.MethodType(get_grade,p1)
+print(p1.get_grade())
