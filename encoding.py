@@ -5,3 +5,4 @@ print(sys.getdefaultencoding())
 s="你好"
 print(s.encode('GBK'))
 print(s.encode())
+print(s.encode('GB2312'))
