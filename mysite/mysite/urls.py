@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.shortcuts import HttpResponse
-def home(request):
-    return HttpResponse('<h1>Hello</h1>')
+from cmdb import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('h.html/', home),
+    path('h.html/', views.home),
+    path('login/', views.login),
+
 ]
