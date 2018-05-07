@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{% static 'common.css'%}">
 </head>
 <body>
-<form action="/login" method="post">
+<form action="/login/" method="post">
     <p>
         <label for="">用户名</label>
         <input type="text" name="username">
@@ -16,6 +16,9 @@
         <label for="">密码</label>
         <input type="password" name="pwd">
         <input type="submit" value="提交">
+    </p>
+    <p>
+        <span style="color:red">{{error_msg}}</span>
     </p>
 </form>
 </body>
