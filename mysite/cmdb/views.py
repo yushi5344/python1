@@ -1,8 +1,22 @@
 from django.shortcuts import render,HttpResponse,redirect
 
 # Create your views here.
+USER_LIST=[
+    {'username':'张三','email':'42423@qq.com','gender':'男'}
+]
+for index in range(20):
+    temp={'username':'张三'+str(index),'email':'42423@qq.com','gender':'男'}
+    USER_LIST.append(temp)
+
 def home(request):
-    return HttpResponse('<h1>Hello</h1>')
+    if(request.method=='POST'):
+        username=request.POST.get('username',None)
+        email=request.POST.get('email',None)
+        gender=request.POST.get('gender',None)
+        temp={'username':username,'email':email,'gender':gender}
+        USER_LIST.append(temp)
+    return render(request,'home.html',{'userlist':USER_LIST})
+
 
 def login(request):
     # f=open('templates/login.html','r',encoding='utf-8')
@@ -13,7 +27,7 @@ def login(request):
         user=request.POST.get('username',None)
         pwd=request.POST.get('pwd',None)
         if(user=='admin' and pwd=='123'):
-            return redirect('http://www.baidu.com')
+            return redirect('/home/')
         else:
             error_msg='用户名密码不匹配'
-    return render(request, 'login.html',{'error_msg':error_msg})
+            return render(request, 'login.html',{'error_msg':error_msg})

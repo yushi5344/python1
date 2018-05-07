@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台首页</title>
+</head>
+<body>
+    <table>
+        <tr>
+           <th>后台首页用户列表</th>
+        </tr>
+        {% for row in userlist %}
+        <tr>
+            <td>{{row.username}}</td>
+            <td>{{row.email}}</td>
+            <td>{{row.gender}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <form action="/home/"method="post">
+        <input type="text" name="username" placeholder="用户名">
+        <input type="email" name="email" placeholder="邮箱">
+        <input type="radio" name="gender" value="男">男 <input type="radio" name="gender" value="女">女
+        <input type="submit" value="添加">
+    </form>
+</body>
+</html>
