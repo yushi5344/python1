@@ -21,9 +21,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
    # path('h.html/', views.home),
     path('login/', views.login),
-    path('home/', views.home),
+    path('home/', views.home,name='home'),
     path('test/', views.test),
-    re_path('detail-(\d+).html', views.detail),
+    #re_path('detail-(\d+).html', views.detail),
+    re_path('detail-(?P<nid>\d+).html', views.detail),
+    #http://127.0.0.1:8000/detail-2-9.html
     path('register/', views.Register.as_view()),
 
 ]

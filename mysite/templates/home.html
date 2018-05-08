@@ -17,7 +17,7 @@
         </tr>
         {% endfor %}
     </table>
-    <form action="/home/"method="post" enctype="multipart/form-data">
+    <form action="{% url 'home'%}"method="post" enctype="multipart/form-data">
         <input type="text" name="username" placeholder="用户名">
         <input type="email" name="email" placeholder="邮箱">
         <input type="radio" name="gender" value="男">男 <input type="radio" name="gender" value="女">女

@@ -63,5 +63,10 @@ def test(request):
 
 def detail(request,nid):
     details=USERLIST[nid]
+    #re_path('detail-(?P<nid>\d+)-(?P<uid>\d+).html', views.detail),
+    #def detail(request,**kwargs):
+       #kwargs={'nid':1,'uid':3}
+    #def detail(request,*args,**kwargs):
+        #args=(2,9)
 
     return render(request,'detail.html',{'detail':details})
