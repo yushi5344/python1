@@ -22,5 +22,6 @@ urlpatterns = [
    # path('h.html/', views.home),
     path('login/', views.login),
     path('home/', views.home),
+    path('register/', views.Register.as_view()),
 
 ]

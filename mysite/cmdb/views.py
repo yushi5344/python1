@@ -39,3 +39,15 @@ def login(request):
             return render(request, 'login.html',{'error_msg':error_msg})
     else:
         return render(request, 'login.html')
+#python中的CBV编程 Class-Base-Views
+#FBV Function-Base-Views
+from django.views import View
+class Register(View):
+    def get(self,request):
+        return render(request,'register.html')
+    def post(self,request):
+        username=request.POST.get('username',None)
+        pwd=request.POST.get('pwd',None)
+        email= request.POST.get('email')
+
+        return  render(request,'register.html',{'username':username,'pwd':pwd,'email':email})
