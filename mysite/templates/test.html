@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <ul>
+        {% for k,row in userlist.items %}
+            <li>{{k}}--{{row.name}}--{{row.email}}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

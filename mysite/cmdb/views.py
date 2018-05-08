@@ -51,3 +51,13 @@ class Register(View):
         email= request.POST.get('email')
 
         return  render(request,'register.html',{'username':username,'pwd':pwd,'email':email})
+
+def test(request):
+    USERLIST={
+        '1':{'name':'root','email':'root@qq.com'},
+        '2':{'name':'root','email':'root@qq.com'},
+        '3':{'name':'root','email':'root@qq.com'},
+        '4':{'name':'root','email':'root@qq.com'},
+        '5':{'name':'root','email':'root@qq.com'},
+    }
+    return render(request,'test.html',{'userlist':USERLIST})
