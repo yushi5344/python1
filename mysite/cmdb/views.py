@@ -1,5 +1,5 @@
 from django.shortcuts import render,HttpResponse,redirect
-
+import os
 # Create your views here.
 USER_LIST=[
     {'username':'张三','email':'42423@qq.com','gender':'男'}
@@ -13,16 +13,22 @@ def home(request):
         username=request.POST.get('username',None)
         email=request.POST.get('email',None)
         gender=request.POST.get('gender',None)
+        favor=request.POST.getlist('favor')
+        print(favor)
+        #文件上传
+        obj=request.FILES.get('imgs')
+        print(obj,type(obj),obj.name)
+        file_path=os.path.join('upload',obj.name)
+        f=open(file_path,mode='wb')
+        for i in obj.chunks():
+            f.write(i)
+        f.close()
         temp={'username':username,'email':email,'gender':gender}
         USER_LIST.append(temp)
     return render(request,'home.html',{'userlist':USER_LIST})
 
 
 def login(request):
-    # f=open('templates/login.html','r',encoding='utf-8')
-    # data=f.read()
-    # f.close()
-    # return HttpResponse(data)
     if(request.method=='POST'):
         user=request.POST.get('username',None)
         pwd=request.POST.get('pwd',None)
@@ -31,3 +37,5 @@ def login(request):
         else:
             error_msg='用户名密码不匹配'
             return render(request, 'login.html',{'error_msg':error_msg})
+    else:
+        return render(request, 'login.html')
