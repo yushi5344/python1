@@ -7,7 +7,7 @@
 <body>
     <ul>
         {% for k,row in userlist.items %}
-            <li>{{k}}--{{row.name}}--{{row.email}}</li>
+            <li><a href="/detail-{{k}}.html" target="_blank">{{row.name}}</a></li>
         {% endfor %}
     </ul>
 </body>
