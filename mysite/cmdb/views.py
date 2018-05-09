@@ -10,30 +10,37 @@ for index in range(20):
     USER_LIST.append(temp)
 
 def home(request):
-    if(request.method=='POST'):
-        username=request.POST.get('username',None)
-        email=request.POST.get('email',None)
-        gender=request.POST.get('gender',None)
-        favor=request.POST.getlist('favor')
-        print(favor)
-        #文件上传
-        obj=request.FILES.get('imgs')
-        print(obj,type(obj),obj.name)
-        file_path=os.path.join('upload',obj.name)
-        f=open(file_path,mode='wb')
-        for i in obj.chunks():
-            f.write(i)
-        f.close()
-        temp={'username':username,'email':email,'gender':gender}
-        USER_LIST.append(temp)
-    return render(request,'home.html',{'userlist':USER_LIST})
+    userlist = models.UserInfo.objects.all()
+    print(userlist)
+    return render(request, 'home.html', {'userlist': userlist})
+    # if(request.method=='POST'):
+    #     username=request.POST.get('username',None)
+    #     email=request.POST.get('email',None)
+    #     gender=request.POST.get('gender',None)
+    #     favor=request.POST.getlist('favor')
+    #     print(favor)
+    #     #文件上传
+    #     obj=request.FILES.get('imgs')
+    #     print(obj,type(obj),obj.name)
+    #     file_path=os.path.join('upload',obj.name)
+    #     f=open(file_path,mode='wb')
+    #     for i in obj.chunks():
+    #         f.write(i)
+    #     f.close()
+    #     temp={'username':username,'email':email,'gender':gender}
+    #     USER_LIST.append(temp)
+    # return render(request,'home.html',{'userlist':USER_LIST})
 
 
 def login(request):
     if(request.method=='POST'):
         user=request.POST.get('username',None)
         pwd=request.POST.get('pwd',None)
-        if(user=='admin' and pwd=='123'):
+        obj=models.UserInfo.objects.filter(username=user,pwd=pwd).first()
+        #如果没有 为None，如果有 为对象
+        #或者
+        #count=models.UserInfo.objects.filter(username=user,pwd=pwd).count()
+        if obj:
             return redirect('/cmdb/home/')
         else:
             error_msg='用户名密码不匹配'
@@ -74,13 +81,14 @@ def test(request):
     return render(request,'test.html',{'userlist':USERLIST})
 
 def detail(request,nid):
-    details=USERLIST[nid]
+    #details=USERLIST[nid]
     #re_path('detail-(?P<nid>\d+)-(?P<uid>\d+).html', views.detail),
     #def detail(request,**kwargs):
        #kwargs={'nid':1,'uid':3}
     #def detail(request,*args,**kwargs):
         #args=(2,9)
-
+    details=models.UserInfo.objects.filter(id=nid).first()
+    print(details)
     return render(request,'detail.html',{'detail':details})
 
 
@@ -109,3 +117,19 @@ def detail(request,nid):
 #models.UserInfo.objects.filter(username='root').delete()
 #更新
 #models.UserInfo.objects.filter(username='root').update(password='123')
+
+def update(request):
+    username=request.POST.get('username',None)
+    email=request.POST.get('email',None)
+    ids=request.POST.get('id',None)
+    result=models.UserInfo.objects.filter(id=ids).update(
+        username=username,
+        email=email
+    )
+    print(result)
+    return redirect('/cmdb/home')
+
+def delete(request,nid):
+    result=models.UserInfo.objects.filter(id=nid).delete()
+    print(result)
+    return redirect('/cmdb/home')

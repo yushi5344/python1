@@ -11,23 +11,23 @@
         </tr>
         {% for row in userlist %}
         <tr>
-            <td>{{row.username}}</td>
+            <td><a href="/cmdb/detail-{{row.id}}-html">{{row.username}}</a></td>
             <td>{{row.email}}</td>
-            <td>{{row.gender}}</td>
+            <td><a href="/cmdb/delete-{{row.id}}">删除</a></td>
         </tr>
         {% endfor %}
     </table>
-    <form action="{% url 'home'%}"method="post" enctype="multipart/form-data">
-        <input type="text" name="username" placeholder="用户名">
-        <input type="email" name="email" placeholder="邮箱">
-        <input type="radio" name="gender" value="男">男 <input type="radio" name="gender" value="女">女
-        <input type="checkbox" name="favor" value="sun">太阳
-        <input type="checkbox" name="favor" value="moon">月亮
-        <input type="checkbox" name="favor" value="star">星星
-        <p>
-            <input type="file" name="imgs">
-        </p>
-        <input type="submit" value="添加">
-    </form>
+    <!--<form action="{% url 'home'%}"method="post" enctype="multipart/form-data">-->
+        <!--<input type="text" name="username" placeholder="用户名">-->
+        <!--<input type="email" name="email" placeholder="邮箱">-->
+        <!--<input type="radio" name="gender" value="男">男 <input type="radio" name="gender" value="女">女-->
+        <!--<input type="checkbox" name="favor" value="sun">太阳-->
+        <!--<input type="checkbox" name="favor" value="moon">月亮-->
+        <!--<input type="checkbox" name="favor" value="star">星星-->
+        <!--<p>-->
+            <!--<input type="file" name="imgs">-->
+        <!--</p>-->
+        <!--<input type="submit" value="添加">-->
+    <!--</form>-->
 </body>
 </html>

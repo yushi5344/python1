@@ -11,8 +11,10 @@ urlpatterns = [
     path('login/', views.login),
     path('home/', views.home,name='home'),
     path('test/', views.test),
+    path('update/', views.update),
     #re_path('detail-(\d+).html', views.detail),
     re_path('detail-(?P<nid>\d+).html', views.detail),
+    re_path('delete-(?P<nid>\d+)', views.delete),
     #http://127.0.0.1:8000/detail-2-9.html
     path('register/', views.Register.as_view()),
 

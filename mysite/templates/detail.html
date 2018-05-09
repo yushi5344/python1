@@ -5,11 +5,15 @@
     <title>详情</title>
 </head>
 <body>
+<form action="/cmdb/update/" method="post">
     <table>
         <tr>
-            <td>{{detail.name}}</td>
-            <td>{{detail.email}}</td>
+            <td><input type="hidden" value="{{detail.id}}" name="id"><input type="text" value="{{detail.username}}" name="username"></td>
+            <td><input type="text" value="{{detail.email}}" name="email"></td>
+            <td><input type="submit" value="提交"></td>
         </tr>
     </table>
+</form>
+
 </body>
 </html>
