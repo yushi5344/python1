@@ -1,4 +1,5 @@
 from django.shortcuts import render,HttpResponse,redirect
+from cmdb import models
 import os
 # Create your views here.
 USER_LIST=[
@@ -49,8 +50,19 @@ class Register(View):
         username=request.POST.get('username',None)
         pwd=request.POST.get('pwd',None)
         email= request.POST.get('email')
-
-        return  render(request,'register.html',{'username':username,'pwd':pwd,'email':email})
+        models.UserInfo.objects.create(
+            username=username,
+            pwd=pwd,
+            email=email
+        )
+        #或者
+        # obj=models.UserInfo(
+        #     username=username,
+        #     pwd=pwd,
+        #     email=email
+        # )
+        # obj.save()
+        return  render(request,'login.html')
 USERLIST={
         '1':{'name':'root','email':'root@qq.com'},
         '2':{'name':'root','email':'root@qq.com'},
@@ -70,3 +82,30 @@ def detail(request,nid):
         #args=(2,9)
 
     return render(request,'detail.html',{'detail':details})
+
+
+#数据新增、
+# models.UserInfo.objects.create(
+#         username=username,
+#         pwd=pwd,
+#         email=email
+#     )
+#或者
+# obj=models.UserInfo(
+#     username=username,
+#     pwd=pwd,
+#     email=email
+# )
+# obj.save()
+
+
+#数据查询
+#查询所有
+#result=models.UserInfo.objects.all()
+#结果是对象
+#条件查询
+#result=models.UserInfo.objects.filter(username='root')
+#删除
+#models.UserInfo.objects.filter(username='root').delete()
+#更新
+#models.UserInfo.objects.filter(username='root').update(password='123')
