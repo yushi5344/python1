@@ -13,6 +13,7 @@
         <tr>
             <td><a href="/cmdb/detail-{{row.id}}-html">{{row.username}}</a></td>
             <td>{{row.email}}</td>
+            <td>{{row.user_group.caption}}</td>
             <td><a href="/cmdb/delete-{{row.id}}">删除</a></td>
         </tr>
         {% endfor %}

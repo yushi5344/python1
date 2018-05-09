@@ -88,7 +88,7 @@ def detail(request,nid):
     #def detail(request,*args,**kwargs):
         #args=(2,9)
     details=models.UserInfo.objects.filter(id=nid).first()
-    print(details)
+    print(details.user_group.caption)
     return render(request,'detail.html',{'detail':details})
 
 
