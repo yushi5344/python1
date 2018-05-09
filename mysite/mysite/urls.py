@@ -13,19 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path,re_path
-from cmdb import views
+
+from django.urls import path,include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-   # path('h.html/', views.home),
-    path('login/', views.login),
-    path('home/', views.home,name='home'),
-    path('test/', views.test),
-    #re_path('detail-(\d+).html', views.detail),
-    re_path('detail-(?P<nid>\d+).html', views.detail),
-    #http://127.0.0.1:8000/detail-2-9.html
-    path('register/', views.Register.as_view()),
+    #路由分发
+    #如果有多个模块，可以在顶级路由文件中写 include方法
+    #然后分配到各个模块中
+    #在每个模块中，应该有一个urls.py文件 c处理当前模块的路由
+    # 路由访问 http://127.0.0.1:8000/cmdb/login/
+    path('cmdb/',include("cmdb.urls")),
+    #path('cmdb2/',include("cmdb.urls")),
 
 ]

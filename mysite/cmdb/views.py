@@ -33,7 +33,7 @@ def login(request):
         user=request.POST.get('username',None)
         pwd=request.POST.get('pwd',None)
         if(user=='admin' and pwd=='123'):
-            return redirect('/home/')
+            return redirect('/cmdb/home/')
         else:
             error_msg='用户名密码不匹配'
             return render(request, 'login.html',{'error_msg':error_msg})
