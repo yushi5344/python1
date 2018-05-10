@@ -17,7 +17,8 @@ def home(request):
     userlist2=userlist.values('id','username','pwd')
     #userlist2是一个字典
     #<QuerySet [{'id': 1, 'username': 'guomin1232', 'pwd': '123456'}, {'id': 2, 'username': 'mam', 'pwd': '123456'}, {'id': 3, 'username': 'mamm', 'pwd': '123456'}, {'id': 4, 'username': 'lalal', 'pwd': '123456'}]>
-    userlist3=userlist.values_list('id','username','pwd')
+    userlist3=userlist.values_list('id','username','pwd','user_group__caption')
+    #跨表操作 user_group__caption
     #userlist3是个元祖
     #<QuerySet [(1, 'guomin1232', '123456'), (2, 'mam', '123456'), (3, 'mamm', '123456'), (4, 'lalal', '123456')]>
 

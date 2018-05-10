@@ -9,8 +9,16 @@
         <tr>
            <th>后台首页用户列表</th>
         </tr>
+        <tr>
+            <td>序号</td>
+            <td>姓名</td>
+            <td>邮件</td>
+            <td>等级</td>
+            <td>操作</td>
+        </tr>
         {% for row in userlist %}
         <tr>
+            <td>{{forloop.counter}}</td>
             <td><a href="/cmdb/detail-{{row.id}}-html">{{row.username}}</a></td>
             <td>{{row.email}}</td>
             <td>{{row.user_group.caption}}</td>
