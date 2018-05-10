@@ -10,8 +10,18 @@ for index in range(20):
     USER_LIST.append(temp)
 
 def home(request):
+
     userlist = models.UserInfo.objects.all()
-    print(userlist)
+    #<QuerySet [<UserInfo: UserInfo object (1)>, <UserInfo: UserInfo object (2)>, <UserInfo: UserInfo object (3)>, <UserInfo: UserInfo object (4)>]>
+    #userlist是一个对象
+    userlist2=userlist.values('id','username','pwd')
+    #userlist2是一个字典
+    #<QuerySet [{'id': 1, 'username': 'guomin1232', 'pwd': '123456'}, {'id': 2, 'username': 'mam', 'pwd': '123456'}, {'id': 3, 'username': 'mamm', 'pwd': '123456'}, {'id': 4, 'username': 'lalal', 'pwd': '123456'}]>
+    userlist3=userlist.values_list('id','username','pwd')
+    #userlist3是个元祖
+    #<QuerySet [(1, 'guomin1232', '123456'), (2, 'mam', '123456'), (3, 'mamm', '123456'), (4, 'lalal', '123456')]>
+
+    print(userlist3)
     return render(request, 'home.html', {'userlist': userlist})
     # if(request.method=='POST'):
     #     username=request.POST.get('username',None)
@@ -88,8 +98,9 @@ def detail(request,nid):
     #def detail(request,*args,**kwargs):
         #args=(2,9)
     details=models.UserInfo.objects.filter(id=nid).first()
-    print(details.user_group.caption)
-    return render(request,'detail.html',{'detail':details})
+    userGroup=models.UserGroup.objects.all()
+    print(userGroup)
+    return render(request,'detail.html',{'detail':details,'user_group':userGroup})
 
 
 #数据新增、
@@ -122,9 +133,11 @@ def update(request):
     username=request.POST.get('username',None)
     email=request.POST.get('email',None)
     ids=request.POST.get('id',None)
+    user_group_id=request.POST.get('user_group_id')
     result=models.UserInfo.objects.filter(id=ids).update(
         username=username,
-        email=email
+        email=email,
+        user_group_id=user_group_id
     )
     print(result)
     return redirect('/cmdb/home')
