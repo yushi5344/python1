@@ -1,5 +1,6 @@
 from django.shortcuts import render,HttpResponse,redirect
 from cmdb import models
+import json
 import os
 # Create your views here.
 USER_LIST=[
@@ -44,18 +45,39 @@ def home(request):
 
 
 def login(request):
-    if(request.method=='POST'):
-        user=request.POST.get('username',None)
-        pwd=request.POST.get('pwd',None)
-        obj=models.UserInfo.objects.filter(username=user,pwd=pwd).first()
+    if request.method=='POST':
+        ret={'status':True,'error':None,'data':None}
+        try:
+            user = request.POST.get('username', None)
+            pwd=request.POST.get('pwd',None)
+            if user and len(user)>3:
+                obj = models.UserInfo.objects.filter(username=user, pwd=pwd).first()
+                if obj:
+                    ret['status']=True
+                    ret['error']='登录成功'
+                else:
+                    ret['status']=False
+                    ret['error']='用户名或密码错误'
+            else:
+                ret['status']=False
+                ret['error']='用户名不得小于3位'
+        except Exception as e:
+            ret['status']=False
+            ret['error']='请求错误'
+        return HttpResponse(json.dumps(ret))
+
+    # if(request.method=='POST'):
+    #     user=request.POST.get('username',None)
+    #     pwd=request.POST.get('pwd',None)
+    #     obj=models.UserInfo.objects.filter(username=user,pwd=pwd).first()
         #如果没有 为None，如果有 为对象
         #或者
         #count=models.UserInfo.objects.filter(username=user,pwd=pwd).count()
-        if obj:
-            return redirect('/cmdb/home/')
-        else:
-            error_msg='用户名密码不匹配'
-            return render(request, 'login.html',{'error_msg':error_msg})
+        # if obj:
+        #     return redirect('/cmdb/home/')
+        # else:
+        #     error_msg='用户名密码不匹配'
+        #     return render(request, 'login.html',{'error_msg':error_msg})
     else:
         return render(request, 'login.html')
 #python中的CBV编程 Class-Base-Views

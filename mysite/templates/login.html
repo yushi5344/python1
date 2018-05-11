@@ -5,9 +5,10 @@
     <title>登录</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'common.css'%}">
+    <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
 </head>
 <body>
-<form action="/cmdb/login/" method="post">
+<form action="/cmdb/login/" method="post" class="form">
     <p>
         <label for="">用户名</label>
         <input type="text" name="username">
@@ -15,10 +16,12 @@
     <p>
         <label for="">密码</label>
         <input type="password" name="pwd">
-        <input type="submit" value="提交">
     </p>
     <p>
-        <span style="color:red">{{error_msg}}</span>
+        <input type="button" value="提交" id="submit">
+    </p>
+    <p>
+        <span style="color:red" id="show_error"></span>
     </p>
     <p>
         <a href="/cmdb/register/">注册</a>
@@ -26,3 +29,26 @@
 </form>
 </body>
 </html>
+<script>
+    $(function(){
+    $('#submit').click(function(){
+    $.ajax({
+            type:'POST',
+            url:"/cmdb/login/",
+            data:$("form").serialize(),
+            dataType:'json',
+            success:function(res){
+                if(res.status){
+                    $('#show_error').text(res.error);
+                        setTimeout(function () {
+                              window.location.href='/cmdb/home/';
+                        },2000);
+                }else{
+                    $('#show_error').text(res.error);
+                }
+            }
+        });
+    });
+
+    });
+</script>
