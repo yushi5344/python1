@@ -25,3 +25,28 @@ class UserInfo(models.Model):
     # userType=models.IntegerField(choices=user_chose,default=1)
     # 数据库中userType会是整型 ，在Django_admin中下拉选择
     user_group=models.ForeignKey("UserGroup",to_field="uid",on_delete=models.CASCADE,default=1)
+
+#用户权限表
+class Auth(models.Model):
+    name=models.CharField(max_length=43)
+
+
+#用户权限中间表
+class UserToAuth(models.Model):
+    a=models.ForeignKey(to='Auth',to_field='id',on_delete=models.CASCADE,default=1)
+    u=models.ForeignKey(to='UserInfo',to_field='id',on_delete=models.CASCADE,default=1)
+    #这是自定义关系表
+
+
+#自动创建关系表  比如用户角色表
+class Role(models.Model):
+    role_name=models.CharField(max_length=40)
+    au=models.ManyToManyField('UserInfo')
+    #无法直接操作第三章表  cmdb_role_au
+    #可以间接方法操作
+    #obj=Role.objects.get(id=1)
+    #obj.au.add(2) 意味着在cmdb_role_au 中增加一条 role_id=1 userinfo_id=2
+    #obj.au.add(*[1,2,3,4])意味着增加4条 分别是1-1,1-2,1-3,1-4
+    #或者  obj.au.add(1,2,3,4)
+    #obj.au.remove(2)删除role_id=1且user_ifo_id=2
+    #obj.r.clear()清除所有role_id=1的

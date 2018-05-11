@@ -169,3 +169,25 @@ def delete(request,nid):
     result=models.UserInfo.objects.filter(id=nid).delete()
     print(result)
     return redirect('/cmdb/home')
+
+
+def addRole(request):
+    if request.method=='POST':
+        role_name=request.POST.get('role_name')
+        obj=models.Role(
+            role_name=role_name
+        )
+        obj.save()
+        return redirect('/cmdb/showRole/')
+    else:
+        return render(request,'addRole.html')
+
+def showRole(request):
+    role_list=models.Role.objects.all()
+    print(role_list)
+    return render(request,'showRole.html',{'role_list':role_list})
+
+
+def addAuth(request,nid):
+    print(nid)
+    return render(request,'addAuth.html')

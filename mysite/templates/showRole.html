@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>显示所有角色</title>
+</head>
+<body>
+    <table>
+        {% for row in role_list%}
+        <tr>
+            <td>{{row.role_name}}</td>
+            <td><a href="/cmdb/addAuth-{{row.id}}.html">设置权限</a></td>
+        </tr>
+        {%endfor%}
+
+    </table>
+</body>
+</html>
