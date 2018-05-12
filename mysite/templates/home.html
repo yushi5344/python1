@@ -21,12 +21,24 @@
         <tr>
             <td>{{forloop.counter}}</td>
             <td><a href="/cmdb/detail-{{row.id}}-html">{{row.username|upper}}</a></td>
-            <td>{{row.email}}</td>
+            <td>{{row.email| comb:'123'}}</td>
             <td>{{row.user_group.caption}}</td>
             <td><a href="/cmdb/delete-{{row.id}}">删除</a></td>
         </tr>
         {% endfor %}
     </table>
+    <div>
+        {% if userlist.has_previous%}
+        <p><a href="?page={{userlist.previous_page_number}}">上一页</a></p>
+        {%endif%}
+        {%for pg in userlist.paginator.page_range %}
+        <a href="?page={{pg}}">{{pg}}</a>
+        {%endfor%}
+        <p>第{{userlist.number}}页 共{{userlist.paginator.num_pages}}页</p>
+        {%if userlist.has_next%}
+            <p><a href="?page={{userlist.next_page_number}}">下一页</a></p>
+        {%endif%}
+    </div>
     {% cal 2 5 %}
     <!--<form action="{% url 'home'%}"method="post" enctype="multipart/form-data">-->
         <!--<input type="text" name="username" placeholder="用户名">-->
