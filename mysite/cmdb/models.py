@@ -50,3 +50,4 @@ class Role(models.Model):
     #或者  obj.au.add(1,2,3,4)
     #obj.au.remove(2)删除role_id=1且user_ifo_id=2
     #obj.r.clear()清除所有role_id=1的
+    #obj.au.set()修改

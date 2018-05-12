@@ -190,4 +190,19 @@ def showRole(request):
 
 def addAuth(request,nid):
     print(nid)
-    return render(request,'addAuth.html')
+    role=models.Role.objects.filter(id=nid).first()
+    print(role)
+    #所有用户
+    user_list=models.UserInfo.objects.all()
+    print(user_list)
+    return render(request,'addAuth.html',{'role':role,'user_list':user_list})
+
+def saveAuth(request):
+    role_id=request.POST.get('role_id')
+    userinfo_id=request.POST.getlist('userinfo_id')
+    print(role_id,userinfo_id)
+    #开始保存到cmdb_role_au
+    obj=models.Role.objects.get(id=role_id)
+    print(obj)
+    obj.au.add(*userinfo_id)
+    return redirect('/cmdb/home')

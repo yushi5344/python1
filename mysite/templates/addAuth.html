@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加权限</title>
+</head>
+<body>
+<form action="{%url 'saveAuth' %}" method="post">
+    <p>
+        当前角色 {{role.role_name}}
+        <input type="hidden" value="{{role.id}}" name="role_id">
+    </p>
+    <p>请选择用户</p>
+    {%for row in user_list%}
+    <input type="checkbox" name="userinfo_id" value="{{row.id}}">{{row.username}}
+    {%endfor%}
+    <p>
+        <input type="submit" value="提交">
+    </p>
+</form>
+</body>
+</html>

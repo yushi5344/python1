@@ -20,5 +20,6 @@ urlpatterns = [
     path('register/', views.Register.as_view()),
     path('addRole/', views.addRole,name='addRole'),
     path('showRole/', views.showRole),
+    path('saveAuth/', views.saveAuth,name='saveAuth'),
 
 ]
