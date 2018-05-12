@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>后台首页</title>
-</head>
-<body>
-    <table>
+{%extends 'master.html' %}
+{%block css%}
+<link rel="stylesheet" href="/static/home.css">
+{%endblock%}
+{%block content%}
+
+<table>
         <tr>
            <th>后台首页用户列表</th>
         </tr>
@@ -38,5 +37,10 @@
         <!--</p>-->
         <!--<input type="submit" value="添加">-->
     <!--</form>-->
-</body>
-</html>
+{%endblock%}
+
+
+{%block js%}
+
+<script src="/static/home.js"></script>
+{%endblock%}

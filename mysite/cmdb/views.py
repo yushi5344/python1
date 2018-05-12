@@ -45,6 +45,8 @@ def home(request):
 
 
 def login(request):
+    #请求头信息
+    print(request.environ['HTTP_USER_AGENT'])
     if request.method=='POST':
         ret={'status':True,'error':None,'data':None}
         try:
