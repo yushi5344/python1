@@ -12,52 +12,57 @@ for index in range(20):
     USER_LIST.append(temp)
 
 def home(request):
+    #获取cookie
+    v=request.COOKIES.get('username')
+    if not v:
+        return redirect('/cmdb/login')
+    else:
+        userlist = models.UserInfo.objects.all()
+        #<QuerySet [<UserInfo: UserInfo object (1)>, <UserInfo: UserInfo object (2)>, <UserInfo: UserInfo object (3)>, <UserInfo: UserInfo object (4)>]>
+        #userlist是一个对象
+        #userlist2=userlist.values('id','username','pwd')
+        #userlist2是一个字典
+        #<QuerySet [{'id': 1, 'username': 'guomin1232', 'pwd': '123456'}, {'id': 2, 'username': 'mam', 'pwd': '123456'}, {'id': 3, 'username': 'mamm', 'pwd': '123456'}, {'id': 4, 'username': 'lalal', 'pwd': '123456'}]>
+        #userlist3=userlist.values_list('id','username','pwd','user_group__caption')
+        #跨表操作 user_group__caption
+        #userlist3是个元祖
+        #<QuerySet [(1, 'guomin1232', '123456'), (2, 'mam', '123456'), (3, 'mamm', '123456'), (4, 'lalal', '123456')]>
 
-    userlist = models.UserInfo.objects.all()
-    #<QuerySet [<UserInfo: UserInfo object (1)>, <UserInfo: UserInfo object (2)>, <UserInfo: UserInfo object (3)>, <UserInfo: UserInfo object (4)>]>
-    #userlist是一个对象
-    #userlist2=userlist.values('id','username','pwd')
-    #userlist2是一个字典
-    #<QuerySet [{'id': 1, 'username': 'guomin1232', 'pwd': '123456'}, {'id': 2, 'username': 'mam', 'pwd': '123456'}, {'id': 3, 'username': 'mamm', 'pwd': '123456'}, {'id': 4, 'username': 'lalal', 'pwd': '123456'}]>
-    #userlist3=userlist.values_list('id','username','pwd','user_group__caption')
-    #跨表操作 user_group__caption
-    #userlist3是个元祖
-    #<QuerySet [(1, 'guomin1232', '123456'), (2, 'mam', '123456'), (3, 'mamm', '123456'), (4, 'lalal', '123456')]>
-
-    #print(userlist)
-    #开始分页  每页显示2条
-    paginator =Paginator(userlist,2)#分页对象
-    page = request.GET.get('page')
-    try:
-        contacts=paginator.page(page)
-    except PageNotAnInteger:
-        contacts=paginator.page(1)
-    except EmptyPage:
-        contacts=paginator.page(paginator.num_pages)
-    return render(request, 'home.html', {'userlist': contacts})
-    # if(request.method=='POST'):
-    #     username=request.POST.get('username',None)
-    #     email=request.POST.get('email',None)
-    #     gender=request.POST.get('gender',None)
-    #     favor=request.POST.getlist('favor')
-    #     print(favor)
-    #     #文件上传
-    #     obj=request.FILES.get('imgs')
-    #     print(obj,type(obj),obj.name)
-    #     file_path=os.path.join('upload',obj.name)
-    #     f=open(file_path,mode='wb')
-    #     for i in obj.chunks():
-    #         f.write(i)
-    #     f.close()
-    #     temp={'username':username,'email':email,'gender':gender}
-    #     USER_LIST.append(temp)
-    # return render(request,'home.html',{'userlist':USER_LIST})
+        #print(userlist)
+        #开始分页  每页显示2条
+        paginator =Paginator(userlist,2)#分页对象
+        page = request.GET.get('page')
+        try:
+            contacts=paginator.page(page)
+        except PageNotAnInteger:
+            contacts=paginator.page(1)
+        except EmptyPage:
+            contacts=paginator.page(paginator.num_pages)
+        return render(request, 'home.html', {'userlist': contacts})
+        # if(request.method=='POST'):
+        #     username=request.POST.get('username',None)
+        #     email=request.POST.get('email',None)
+        #     gender=request.POST.get('gender',None)
+        #     favor=request.POST.getlist('favor')
+        #     print(favor)
+        #     #文件上传
+        #     obj=request.FILES.get('imgs')
+        #     print(obj,type(obj),obj.name)
+        #     file_path=os.path.join('upload',obj.name)
+        #     f=open(file_path,mode='wb')
+        #     for i in obj.chunks():
+        #         f.write(i)
+        #     f.close()
+        #     temp={'username':username,'email':email,'gender':gender}
+        #     USER_LIST.append(temp)
+        # return render(request,'home.html',{'userlist':USER_LIST})
 
 
 def login(request):
     #请求头信息
     print(request.environ['HTTP_USER_AGENT'])
     if request.method=='POST':
+        cookie=False
         ret={'status':True,'error':None,'data':None}
         try:
             user = request.POST.get('username', None)
@@ -67,6 +72,7 @@ def login(request):
                 if obj:
                     ret['status']=True
                     ret['error']='登录成功'
+                    cookie=True
                 else:
                     ret['status']=False
                     ret['error']='用户名或密码错误'
@@ -76,7 +82,10 @@ def login(request):
         except Exception as e:
             ret['status']=False
             ret['error']='请求错误'
-        return HttpResponse(json.dumps(ret))
+        rep= HttpResponse(json.dumps(ret))
+        if cookie:
+            rep.set_cookie('username',user,max_age=10*60)#10分后失效
+        return rep
 
     # if(request.method=='POST'):
     #     user=request.POST.get('username',None)
