@@ -30,7 +30,11 @@ def home(request):
 
         #print(userlist)
         #开始分页  每页显示2条
-        paginator =Paginator(userlist,2)#分页对象
+        pagesize=request.COOKIES.get('pagesize',None)
+        if not pagesize:
+            pagesize=1
+        print(pagesize)
+        paginator =Paginator(userlist,pagesize)#分页对象
         page = request.GET.get('page')
         try:
             contacts=paginator.page(page)
@@ -84,7 +88,7 @@ def login(request):
             ret['error']='请求错误'
         rep= HttpResponse(json.dumps(ret))
         if cookie:
-            rep.set_cookie('username',user,max_age=10*60)#10分后失效
+            rep.set_cookie('username',user,max_age=86400)#10分后失效
         return rep
 
     # if(request.method=='POST'):
