@@ -1,4 +1,6 @@
+
 {%extends 'master.html' %}
+{%load funcs %}
 {%block css%}
 <link rel="stylesheet" href="/static/home.css">
 {%endblock%}
@@ -18,13 +20,14 @@
         {% for row in userlist %}
         <tr>
             <td>{{forloop.counter}}</td>
-            <td><a href="/cmdb/detail-{{row.id}}-html">{{row.username}}</a></td>
+            <td><a href="/cmdb/detail-{{row.id}}-html">{{row.username|upper}}</a></td>
             <td>{{row.email}}</td>
             <td>{{row.user_group.caption}}</td>
             <td><a href="/cmdb/delete-{{row.id}}">删除</a></td>
         </tr>
         {% endfor %}
     </table>
+    {% cal 2 5 %}
     <!--<form action="{% url 'home'%}"method="post" enctype="multipart/form-data">-->
         <!--<input type="text" name="username" placeholder="用户名">-->
         <!--<input type="email" name="email" placeholder="邮箱">-->
