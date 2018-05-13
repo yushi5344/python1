@@ -1,5 +1,6 @@
 from django.shortcuts import render,HttpResponse,redirect
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
+from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from cmdb import models
 import json
 import os
@@ -190,7 +191,8 @@ def detail(request,nid):
 #models.UserInfo.objects.filter(username='root').delete()
 #更新
 #models.UserInfo.objects.filter(username='root').update(password='123')
-
+#写上这个装饰器意味着不需要开启CSRF验证
+@csrf_exempt
 def update(request):
     username=request.POST.get('username',None)
     email=request.POST.get('email',None)
