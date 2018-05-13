@@ -13,7 +13,12 @@ for index in range(20):
 
 def home(request):
     #获取cookie
-    v=request.COOKIES.get('username')
+    # v=request.COOKIES.get('username')
+    #session判断原理
+    #获取当前用户的随机字符串
+    #根据字符串获取对应信息
+    #根据对应信息查找is_login
+    v=request.session['is_login']
     if not v:
         return redirect('/cmdb/login')
     else:
@@ -42,7 +47,7 @@ def home(request):
             contacts=paginator.page(1)
         except EmptyPage:
             contacts=paginator.page(paginator.num_pages)
-        return render(request, 'home.html', {'userlist': contacts})
+        return render(request, 'home.html', {'userlist': contacts,'user':request.session['username']})
         # if(request.method=='POST'):
         #     username=request.POST.get('username',None)
         #     email=request.POST.get('email',None)
@@ -66,7 +71,7 @@ def login(request):
     #请求头信息
     print(request.environ['HTTP_USER_AGENT'])
     if request.method=='POST':
-        cookie=False
+        # cookie=False
         ret={'status':True,'error':None,'data':None}
         try:
             user = request.POST.get('username', None)
@@ -76,7 +81,14 @@ def login(request):
                 if obj:
                     ret['status']=True
                     ret['error']='登录成功'
-                    cookie=True
+                    # cookie=True
+                    #生成随机字符串
+                    #写到用户浏览器cookie
+                    #保存在session中
+                    #在随机字符串对应的字典中设置相关内容
+                    #Django将session保存在数据库中
+                    request.session['username']=user
+                    request.session['is_login']=True
                 else:
                     ret['status']=False
                     ret['error']='用户名或密码错误'
@@ -87,8 +99,8 @@ def login(request):
             ret['status']=False
             ret['error']='请求错误'
         rep= HttpResponse(json.dumps(ret))
-        if cookie:
-            rep.set_cookie('username',user,max_age=86400)#10分后失效
+        # if cookie:
+        #     rep.set_cookie('username',user,max_age=86400)#10分后失效
         return rep
 
     # if(request.method=='POST'):
@@ -238,4 +250,17 @@ def saveAuth(request):
 #或者在后端使用mark_safe处理
 #from django.utils.safestring import mark_safe
 #html_tag=mark_safe(page_str)
+
+#装饰器
+#1CBV装饰器:
+def auth(func):
+    def inner(request,*args,**kwargs):
+        return func(request,*args,**kwargs)
+    return inner
+
+def login_auth(request):
+    v=request.COOKIES.get('username')
+    if not v:
+        return redirect('/cmdb/login')
+
 

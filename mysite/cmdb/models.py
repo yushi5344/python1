@@ -1,6 +1,7 @@
 # Author guomin
 from django.db import models
 #
+#UserGroup如果想访问userinfo表 可以使用userinfo_set
 class UserGroup(models.Model):
     uid=models.AutoField(primary_key=True)
     caption=models.CharField(max_length=32,unique=True)
