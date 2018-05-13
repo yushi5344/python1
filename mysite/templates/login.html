@@ -12,10 +12,14 @@
     <p>
         <label for="">用户名</label>
         <input type="text" name="username">
+        {%csrf_token%}
     </p>
     <p>
         <label for="">密码</label>
         <input type="password" name="pwd">
+    </p>
+    <p>
+        <input type="checkbox" value="1" name="auto_login">一周内免登陆
     </p>
     <p>
         <input type="button" value="提交" id="submit">

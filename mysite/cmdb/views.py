@@ -18,7 +18,7 @@ def home(request):
     #获取当前用户的随机字符串
     #根据字符串获取对应信息
     #根据对应信息查找is_login
-    v=request.session['is_login']
+    v=request.session.get('is_login',None)
     if not v:
         return redirect('/cmdb/login')
     else:
@@ -47,7 +47,7 @@ def home(request):
             contacts=paginator.page(1)
         except EmptyPage:
             contacts=paginator.page(paginator.num_pages)
-        return render(request, 'home.html', {'userlist': contacts,'user':request.session['username']})
+        return render(request, 'home.html', {'userlist': contacts})
         # if(request.method=='POST'):
         #     username=request.POST.get('username',None)
         #     email=request.POST.get('email',None)
@@ -89,6 +89,8 @@ def login(request):
                     #Django将session保存在数据库中
                     request.session['username']=user
                     request.session['is_login']=True
+                    if request.POST.get('auto_login',None)=='1':
+                        request.session.set_expiry(3600*24*7)
                 else:
                     ret['status']=False
                     ret['error']='用户名或密码错误'
@@ -263,4 +265,6 @@ def login_auth(request):
     if not v:
         return redirect('/cmdb/login')
 
-
+def loginout(request):
+    request.session.clear()
+    return redirect('/cmdb/login')

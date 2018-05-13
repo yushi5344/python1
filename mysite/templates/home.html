@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="/static/home.css">
 {%endblock%}
 {%block content%}
-当前登录用户{{user}}
+当前登录用户{{request.session.username}}
 <table>
         <tr>
            <th>后台首页用户列表</th>
@@ -46,6 +46,9 @@
         <option value="4">4</option>
         <option value="5">5</option>
     </select>
+    <div>
+        <p><a href="/cmdb/loginout/">注销</a></p>
+    </div>
     <!--<form action="{% url 'home'%}"method="post" enctype="multipart/form-data">-->
         <!--<input type="text" name="username" placeholder="用户名">-->
         <!--<input type="email" name="email" placeholder="邮箱">-->
