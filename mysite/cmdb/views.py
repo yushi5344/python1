@@ -2,6 +2,7 @@ from django.shortcuts import render,HttpResponse,redirect
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from django import forms
+from django.forms import widgets,fields
 from cmdb import models
 import json
 import os
@@ -122,13 +123,14 @@ def login(request):
     else:
         return render(request, 'login.html')
 class FormValidate(forms.Form):
-    username=forms.CharField(error_messages={'required':'用户名不能为空','min_length':'用户名最少2位'},min_length=2)
-    pwd=forms.CharField(
+    username=fields.CharField(error_messages={'required':'用户名不能为空','min_length':'用户名最少2位'},min_length=2)
+    pwd=fields.CharField(
         max_length=12,
         min_length=6,
-        error_messages={'required':'密码不能为空','min_length':'密码不能小于6位','max_length':'密码不能大于12位'}
+        error_messages={'required':'密码不能为空','min_length':'密码不能小于6位','max_length':'密码不能大于12位'},
+        widget=widgets.PasswordInput(attrs={'class':'pass'})
     )
-    email=forms.EmailField(error_messages={'required':'邮箱不能为空','invalid':'邮箱格式错误'})
+    email=fields.EmailField(error_messages={'required':'邮箱不能为空','invalid':'邮箱格式错误'})
 #python中的CBV编程 Class-Base-Views
 #FBV Function-Base-Views
 from django.views import View
