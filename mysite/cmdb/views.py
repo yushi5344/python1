@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponse,redirect
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
+from django import forms
 from cmdb import models
 import json
 import os
@@ -120,29 +121,42 @@ def login(request):
         #     return render(request, 'login.html',{'error_msg':error_msg})
     else:
         return render(request, 'login.html')
+class FormValidate(forms.Form):
+    username=forms.CharField(error_messages={'required':'用户名不能为空','min_length':'用户名最少2位'},min_length=2)
+    pwd=forms.CharField(
+        max_length=12,
+        min_length=6,
+        error_messages={'required':'密码不能为空','min_length':'密码不能小于6位','max_length':'密码不能大于12位'}
+    )
+    email=forms.EmailField(error_messages={'required':'邮箱不能为空','invalid':'邮箱格式错误'})
 #python中的CBV编程 Class-Base-Views
 #FBV Function-Base-Views
 from django.views import View
 class Register(View):
     def get(self,request):
-        return render(request,'register.html')
+        data=FormValidate()
+        return render(request,'register.html',{'data':data})
     def post(self,request):
-        username=request.POST.get('username',None)
-        pwd=request.POST.get('pwd',None)
-        email= request.POST.get('email')
-        models.UserInfo.objects.create(
-            username=username,
-            pwd=pwd,
-            email=email
-        )
-        #或者
-        # obj=models.UserInfo(
+        data=FormValidate(request.POST)
+        res=data.is_valid()
+        if res:
+            print(data.cleaned_data)
+            obj=models.UserInfo(**data.cleaned_data )
+            obj.save()
+            return render(request, 'login.html')
+        else:
+            print(data.errors)
+            return render(request,'register.html',{'data':data})
+        # username=request.POST.get('username',None)
+        # pwd=request.POST.get('pwd',None)
+        # email= request.POST.get('email')
+        # models.UserInfo.objects.create(
         #     username=username,
         #     pwd=pwd,
         #     email=email
         # )
-        # obj.save()
-        return  render(request,'login.html')
+        #或者
+
 USERLIST={
         '1':{'name':'root','email':'root@qq.com'},
         '2':{'name':'root','email':'root@qq.com'},
