@@ -13,6 +13,7 @@ urlpatterns = [
     path('home/', views.home,name='home'),
     path('test/', views.test),
     path('update/', views.update),
+    path('cache/', views.cache),
     #re_path('detail-(\d+).html', views.detail),
     re_path('detail-(?P<nid>\d+).html', views.detail),
     re_path('addAuth-(?P<nid>\d+).html', views.addAuth),

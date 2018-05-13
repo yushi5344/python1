@@ -270,3 +270,10 @@ def login_auth(request):
 def loginout(request):
     request.session.clear()
     return redirect('/cmdb/login')
+
+from django.views.decorators.cache import cache_page
+import time
+#@cache_page(10)
+def cache(request):
+    t=time.time()
+    return render(request,'cache.html',{'t':t})
