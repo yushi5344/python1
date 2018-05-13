@@ -7,9 +7,12 @@
 <body>
 <form action="/cmdb/register/" method="post">
     {% csrf_token %}
-    <p>用户名{{data.username}} {{data.errors.username.0}}</p>
-    <p>密码 {{data.pwd}}{{data.errors.pwd.0}}</p>
-    <p>邮箱 {{data.email}}{{data.errors.email.0}}</p>
+    <p>{{data.username.label}}{{data.username}} {{data.errors.username.0}}</p>
+    <p>{{data.pwd.label}} {{data.pwd}}{{data.errors.pwd.0}}</p>
+    <p>{{data.email.label}} {{data.email}}{{data.errors.email.0}}</p>
+    <p>{{data.city}}</p>
+    <p>{{data.favor}}</p>
+    <p>{{data.provice}}</p>
     <p><input type="submit" value="提交"></p>
     <p>
         {{username}}--{{pwd}}--{{email}}

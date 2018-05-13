@@ -123,14 +123,34 @@ def login(request):
     else:
         return render(request, 'login.html')
 class FormValidate(forms.Form):
-    username=fields.CharField(error_messages={'required':'用户名不能为空','min_length':'用户名最少2位'},min_length=2)
+    username=fields.CharField(
+        label='用户名',
+        initial='admin',
+        error_messages={'required':'用户名不能为空','min_length':'用户名最少2位'},
+        min_length=2)
     pwd=fields.CharField(
+        label='密码',
         max_length=12,
         min_length=6,
         error_messages={'required':'密码不能为空','min_length':'密码不能小于6位','max_length':'密码不能大于12位'},
         widget=widgets.PasswordInput(attrs={'class':'pass'})
     )
-    email=fields.EmailField(error_messages={'required':'邮箱不能为空','invalid':'邮箱格式错误'})
+    email=fields.EmailField(
+        label='邮箱',
+        error_messages={'required':'邮箱不能为空','invalid':'邮箱格式错误'}
+    )
+    city=fields.ChoiceField(
+        choices=[(0,'上海'),(1,'广州'),(3,'南京')]
+    )
+    favor=fields.MultipleChoiceField(
+        choices=[(1,'apple'),(2,'pea'),(3,'banana')]
+    )
+    provice=fields.CharField(
+        initial=2,
+        widget=widgets.RadioSelect(
+            choices=((1,'上海'),(2,'厦门'))
+        )
+    )
 #python中的CBV编程 Class-Base-Views
 #FBV Function-Base-Views
 from django.views import View
